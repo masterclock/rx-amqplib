@@ -1,6 +1,6 @@
 {
   "name": "rxjs-amqplib",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "rxjs wrapper for the amqplib from masterclock",
   "repository": {
     "type": "git",
