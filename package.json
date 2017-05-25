@@ -1,10 +1,10 @@
 {
-  "name": "rx-amqplib",
-  "version": "0.1.6",
-  "description": "RxJS wrapper for the amqplib from squaremo",
+  "name": "rxjs-amqplib",
+  "version": "0.0.1",
+  "description": "rxjs wrapper for the amqplib from masterclock",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/SkippyZA/rx-amqplib.git"
+    "url": "git+ssh://git@github.com/masterclock/rx-amqplib.git"
   },
   "keywords": [
     "rxjs",
@@ -13,10 +13,10 @@
     "rabbitmq",
     "queue"
   ],
-  "author": "Steven Inskip",
+  "author": "masterclock",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SkippyZA/rx-amqplib/issues"
+    "url": "https://github.com/masterclock/rx-amqplib/issues"
   },
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "example-server": "npm run build && node ./examples/server.js",
     "example-worker": "npm run build && node ./examples/worker.js"
   },
-  "homepage": "https://github.com/SkippyZA/rx-amqplib#readme",
+  "homepage": "https://github.com/masterclock/rx-amqplib#readme",
   "dependencies": {
     "amqplib": "^0.5.1",
     "rxjs": "^5.4.0"
