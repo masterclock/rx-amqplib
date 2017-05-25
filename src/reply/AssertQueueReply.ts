@@ -1,7 +1,6 @@
 import {Replies} from 'amqplib/properties';
 import RxChannel from '../RxChannel';
 
-
 class AssertQueueReply implements Replies.AssertQueue {
   public channel: RxChannel;
   public queue: string;

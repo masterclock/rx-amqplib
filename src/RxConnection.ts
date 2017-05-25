@@ -1,6 +1,6 @@
-import * as Rx from 'rx';
+import { Channel, Connection, Options } from 'amqplib';
+import * as Rx from 'rxjs/Rx';
 import RxChannel from './RxChannel';
-import {Connection, Channel, Options} from 'amqplib';
 
 /**
  * Connection to AMQP server.
@@ -31,7 +31,7 @@ class RxConnection {
    *
    * @returns Rx.Observable<void>
    */
-  public close(): Rx.Observable<void> {
+  public close(): Rx.Observable<any> {
     return Rx.Observable.fromPromise(this.connection.close());
   }
 }

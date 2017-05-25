@@ -1,15 +1,15 @@
-import {Message} from 'amqplib/properties';
-import {Options} from 'amqplib';
+import { Options } from 'amqplib';
+import { Message } from 'amqplib/properties';
 import RxChannel from './RxChannel';
 
 /**
  * RxMessage Class
  */
 class RxMessage implements Message {
-  content: Buffer;
-  fields: any;
-  properties: any;
-  channel: RxChannel;
+  public content: Buffer;
+  public fields: any;
+  public properties: any;
+  public channel: RxChannel;
 
   /**
    * RxMessage constructor.
@@ -30,15 +30,15 @@ class RxMessage implements Message {
    * @param buffer
    * @returns boolean
    */
-  reply(buffer: Buffer, options?: Options.Publish): boolean {
+  public reply(buffer: Buffer, options?: Options.Publish): boolean {
     if (!(this.properties.replyTo || this.properties.correlationId)) {
       // @TODO: Decide if whether to throw error or return false
-      //throw Error('Message must contain a value for properties.replyTo and properties.correlationId');
+      // throw Error('Message must contain a value for properties.replyTo and properties.correlationId');
       return false;
     }
 
-    return this.channel.sendToQueue(this.properties.replyTo, buffer, (<any>Object).assign({}, options, {
-      correlationId: this.properties.correlationId
+    return this.channel.sendToQueue(this.properties.replyTo, buffer, (Object).assign({}, options, {
+      correlationId: this.properties.correlationId,
     }));
   }
 
@@ -47,7 +47,7 @@ class RxMessage implements Message {
    *
    * @param allUpTo
    */
-  ack(allUpTo?: boolean): void {
+  public ack(allUpTo?: boolean): void {
     return this.channel.ack(this, allUpTo);
   }
 
@@ -56,7 +56,7 @@ class RxMessage implements Message {
    *
    * @param requeue
    */
-  nack(requeue?: boolean): void {
+  public nack(requeue?: boolean): void {
     return this.channel.nack(this, false, requeue);
   }
 }

@@ -1,16 +1,22 @@
 {
-    "compilerOptions": {
-        "outDir": "dist",
-        "target": "es5",
-        "sourceMap": false,
-        "module": "commonjs",
-        "noImplicitAny": true,
-        "preserveConstEnums": true,
-        "declaration": true
-    },
-    "compileOnSave": false,
-    "files": [
-        "./src/RxAmqpLib.ts",
-        "./typings/index.d.ts"
+  "compilerOptions": {
+    "declaration": true,
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "./dist",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "typeRoots": [
+      "./node_modules/@types"
     ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*-spec.ts"
+  ]
 }

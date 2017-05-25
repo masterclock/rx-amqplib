@@ -1,4 +1,4 @@
-import {Replies} from 'amqplib/properties';
+import { Replies } from 'amqplib/properties';
 import RxChannel from '../RxChannel';
 
 class AssertExchangeReply implements Replies.AssertExchange {

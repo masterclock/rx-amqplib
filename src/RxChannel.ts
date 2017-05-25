@@ -1,12 +1,12 @@
-import * as Rx from 'rx';
-import {Connection, Channel, Options} from 'amqplib';
-import {Message} from 'amqplib/properties';
-import AssertQueueReply from './reply/AssertQueueReply';
+import { Channel, Connection, Options, Replies } from 'amqplib';
+import { Message } from 'amqplib/properties';
+import * as Rx from 'rxjs/Rx';
 import AssertExchangeReply from './reply/AssertExchangeReply';
-import EmptyReply from './reply/EmptyReply';
-import RxMessage from './RxMessage';
+import AssertQueueReply from './reply/AssertQueueReply';
 import DeleteQueueReply from './reply/DeleteQueueReply';
+import EmptyReply from './reply/EmptyReply';
 import PurgeQueueReply from './reply/PurgeQueueReply';
+import RxMessage from './RxMessage';
 
 /**
  * AMQP Rx Channel
@@ -24,10 +24,10 @@ class RxChannel {
   /**
    * Close a channel.
    *
-   * @returns Rx.Observable<void>
+   * @returns Rx.Observable<any>
    */
-  public close(): Rx.Observable<void> {
-    return Rx.Observable.fromPromise(this.channel.close())
+  public close(): Rx.Observable<any> {
+    return Rx.Observable.fromPromise(this.channel.close());
   }
 
   /**
@@ -41,7 +41,7 @@ class RxChannel {
    * @returns Rx.Observable<AssertQueueReply>
    */
   public assertQueue(queue: string, options: Options.AssertQueue): Rx.Observable<AssertQueueReply> {
-    return Rx.Observable.fromPromise(this.channel.assertQueue(queue, options))
+    return Rx.Observable.fromPromise<Replies.AssertQueue>(this.channel.assertQueue(queue, options))
       .map(reply => new AssertQueueReply(this, reply));
   }
 
@@ -52,8 +52,8 @@ class RxChannel {
    * @param queue
    * @returns Rx.Observable<AssertQueueReply>
    */
-  checkQueue(queue: string): Rx.Observable<AssertQueueReply> {
-    return Rx.Observable.fromPromise(this.channel.checkQueue(queue))
+  public checkQueue(queue: string): Rx.Observable<AssertQueueReply> {
+    return Rx.Observable.fromPromise<Replies.AssertQueue>(this.channel.checkQueue(queue))
       .map(reply => new AssertQueueReply(this, reply));
   }
 
@@ -70,8 +70,8 @@ class RxChannel {
    * @param options
    * @returns Rx.Observable<DeleteQueueReply>
    */
-  deleteQueue(queue: string, options?: Options.DeleteQueue): Rx.Observable<DeleteQueueReply> {
-    return Rx.Observable.fromPromise(this.channel.deleteQueue(queue, options))
+  public deleteQueue(queue: string, options?: Options.DeleteQueue): Rx.Observable<DeleteQueueReply> {
+    return Rx.Observable.fromPromise<Replies.DeleteQueue>(this.channel.deleteQueue(queue, options))
       .map(reply => new DeleteQueueReply(this, reply));
   }
 
@@ -83,8 +83,8 @@ class RxChannel {
    * @param queue
    * @returns Rx.Observable<PurgeQueueReply>
    */
-  purgeQueue(queue: string): Rx.Observable<PurgeQueueReply> {
-    return Rx.Observable.fromPromise(this.channel.purgeQueue(queue))
+  public purgeQueue(queue: string): Rx.Observable<PurgeQueueReply> {
+    return Rx.Observable.fromPromise<Replies.PurgeQueue>(this.channel.purgeQueue(queue))
       .map(reply => new PurgeQueueReply(this, reply));
   }
 
@@ -99,8 +99,8 @@ class RxChannel {
    * @returns Rx.Observable<EmptyReply>
    */
   public bindQueue(queue: string, source: string, pattern: string, args?: any): Rx.Observable<EmptyReply> {
-    return Rx.Observable.just(this.channel.bindQueue(queue, source, pattern, args))
-      .map(() => new EmptyReply(this))
+    return Rx.Observable.of(this.channel.bindQueue(queue, source, pattern, args))
+      .map(() => new EmptyReply(this));
   }
 
   /**
@@ -114,8 +114,8 @@ class RxChannel {
    * @param args
    * @returns Rx.Observable<EmptyRole>
    */
-  unbindQueue(queue: string, source: string, pattern: string, args?: any): Rx.Observable<EmptyReply> {
-    return Rx.Observable.just(this.channel.unbindQueue(queue, source, pattern, args))
+  public unbindQueue(queue: string, source: string, pattern: string, args?: any): Rx.Observable<EmptyReply> {
+    return Rx.Observable.of(this.channel.unbindQueue(queue, source, pattern, args))
       .map(() => new EmptyReply(this));
   }
 
@@ -128,11 +128,11 @@ class RxChannel {
    * @returns {Rx.Observable<AssertExchangeReply>}
    */
   public assertExchange(exchange: string, type: string, options?: Options.AssertExchange):
-      Rx.Observable<AssertExchangeReply> {
+  Rx.Observable<AssertExchangeReply> {
 
-    return Rx.Observable.fromPromise(this.channel.assertExchange(exchange, type, options))
-      .map(reply => new AssertExchangeReply(this, reply))
-  };
+    return Rx.Observable.fromPromise<Replies.AssertExchange>(this.channel.assertExchange(exchange, type, options))
+      .map(reply => new AssertExchangeReply(this, reply));
+  }
 
   /**
    * Check that an exchange exists. If it doesn't exist, the channel will be closed with an error. If it does exist,
@@ -141,7 +141,7 @@ class RxChannel {
    * @param exchange
    * @returns Rx.Observable<EmptyReply>
    */
-  checkExchange(exchange: string): Rx.Observable<EmptyReply> {
+  public checkExchange(exchange: string): Rx.Observable<EmptyReply> {
     return Rx.Observable.fromPromise(this.channel.checkExchange(exchange))
       .map(reply => new EmptyReply(this));
   }
@@ -159,7 +159,7 @@ class RxChannel {
    * @param options
    * @returns Rx.Observable<EmptyReply>
    */
-  deleteExchange(exchange: string, options?: Options.DeleteExchange): Rx.Observable<EmptyReply> {
+  public deleteExchange(exchange: string, options?: Options.DeleteExchange): Rx.Observable<EmptyReply> {
     return Rx.Observable.fromPromise(this.channel.deleteExchange(exchange, options))
       .map(reply => new EmptyReply(this));
   }
@@ -175,7 +175,7 @@ class RxChannel {
    * @param args
    * @returns Rx.Observable<EmptyReply>
    */
-  bindExchange(destination: string, source: string, pattern: string, args?: any): Rx.Observable<EmptyReply> {
+  public bindExchange(destination: string, source: string, pattern: string, args?: any): Rx.Observable<EmptyReply> {
     return Rx.Observable.fromPromise(this.channel.bindExchange(destination, source, pattern, args))
       .map(reply => new EmptyReply(this));
   }
@@ -191,7 +191,7 @@ class RxChannel {
    * @param args
    * @returns Rx.Observable<EmtpyReply>
    */
-  unbindExchange(destination: string, source: string, pattern: string, args?: any): Rx.Observable<EmptyReply> {
+  public unbindExchange(destination: string, source: string, pattern: string, args?: any): Rx.Observable<EmptyReply> {
     return Rx.Observable.fromPromise(this.channel.unbindExchange(destination, source, pattern, args))
       .map(reply => new EmptyReply(this));
   }
@@ -205,8 +205,7 @@ class RxChannel {
    * @param options
    * @returns boolean
    */
-  public publish(exchange: string, routingKey: string, content: Buffer,
-                 options?: Options.Publish): boolean {
+  public publish(exchange: string, routingKey: string, content: Buffer, options?: Options.Publish): boolean {
     return this.channel.publish(exchange, routingKey, content, options);
   }
 
@@ -220,7 +219,7 @@ class RxChannel {
    */
   public sendToQueue(queue: string, message: Buffer, options?: Options.Publish): boolean {
     return this.channel.sendToQueue(queue, message, options);
-  };
+  }
 
   /**
    * Set up a consumer where each message will emit an observable of `RxMessage`
@@ -230,22 +229,23 @@ class RxChannel {
    * @returns {Rx.Observable<RxMessage>}
    */
   public consume(queue: string, options?: Options.Consume): Rx.Observable<RxMessage> {
-    return <Rx.Observable<RxMessage>> Rx.Observable.create(observer => {
+    return Rx.Observable.create((observer: Rx.Observer<any>) => {
       let tag: string;
-      let close$ = Rx.Observable.fromEvent(<any> this.channel, 'close');
-      let closeSub = close$.subscribe(() => observer.onCompleted());
+      const close$ = Rx.Observable.fromEvent(this.channel, 'close');
+      const closeSub = close$.subscribe(() => observer.complete());
 
       this.channel.consume(queue, (msg: Message) => {
-        observer.onNext(new RxMessage(msg, this));
+        observer.next(new RxMessage(msg, this));
       }, options).then(r => tag = r.consumerTag);
 
       return () => {
-        closeSub.dispose();
+        closeSub.unsubscribe();
         try {
           this.cancel(tag);
         } catch (e) {
+          // TODO:
         } // This prevents a race condition
-      }
+      };
     });
   }
 
@@ -276,9 +276,10 @@ class RxChannel {
    * @returns Rx.Observable<RxMessage>
    */
   public get(queue: string, options?: Options.Get): Rx.Observable<RxMessage> {
-    return Rx.Observable.fromPromise(this.channel.get(queue, options))
+    return Rx.Observable.fromPromise<boolean | Message>(this.channel.get(queue, options))
       .filter(message => message !== false)
-      .map(message => new RxMessage(<Message> message, this));
+      .filter(message => typeof message !== 'boolean')
+      .map(message => new RxMessage(message as Message, this));
   }
 
   /**

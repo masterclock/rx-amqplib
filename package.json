@@ -24,7 +24,6 @@
     "build:lint": "node_modules/.bin/tslint --config=tslint.json --project=tsconfig.json",
     "build:ts": "node_modules/.bin/tsc",
     "build": "npm run build:lint && npm run build:ts",
-
     "example-client": "npm run build && node ./examples/client.js",
     "example-emit-logs-direct": "npm run build && node ./examples/emit_log_direct.js",
     "example-emit-logs-topic": "npm run build && node ./examples/emit_log_topic.js",
@@ -40,13 +39,12 @@
   },
   "homepage": "https://github.com/SkippyZA/rx-amqplib#readme",
   "dependencies": {
-    "amqplib": "^0.4.1",
-    "node-uuid": "^1.4.7",
-    "rx": "^4.1.0"
+    "amqplib": "^0.5.1",
+    "rxjs": "^5.4.0"
   },
   "devDependencies": {
-    "rimraf": "^2.5.4",
-    "tslint": "^3.15.1",
-    "typescript": "^2.0.3"
+    "@types/amqplib": "^0.5.1",
+    "tslint": "^5.3.2",
+    "typescript": "^2.3.3"
   }
 }
