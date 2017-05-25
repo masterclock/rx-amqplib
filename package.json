@@ -18,7 +18,11 @@
   "bugs": {
     "url": "https://github.com/masterclock/rx-amqplib/issues"
   },
-  "main": "index.js",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "node_modules/.bin/rimraf dist/*",
     "build:lint": "node_modules/.bin/tslint --config=tslint.json --project=tsconfig.json",

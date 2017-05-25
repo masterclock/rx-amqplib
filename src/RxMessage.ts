@@ -5,7 +5,7 @@ import RxChannel from './RxChannel';
 /**
  * RxMessage Class
  */
-class RxMessage implements Message {
+export class RxMessage implements Message {
   public content: Buffer;
   public fields: any;
   public properties: any;

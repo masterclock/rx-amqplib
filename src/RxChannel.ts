@@ -11,7 +11,7 @@ import RxMessage from './RxMessage';
 /**
  * AMQP Rx Channel
  */
-class RxChannel {
+export class RxChannel {
 
   /**
    * Class constructor.

@@ -6,7 +6,7 @@ import RxConnection from './RxConnection';
 /**
  * Factory for RxAmqpLib.
  */
-class RxAmqpLib {
+export class RxAmqpLib {
 
   /**
    * Create a new instance of RxConnection, which wraps the amqplib Connection obj.

@@ -5,7 +5,7 @@ import RxChannel from './RxChannel';
 /**
  * Connection to AMQP server.
  */
-class RxConnection {
+export class RxConnection {
   /**
    * Class constructor
    *

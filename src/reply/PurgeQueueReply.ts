@@ -1,7 +1,7 @@
 import {Replies} from 'amqplib/properties';
 import RxChannel from '../RxChannel';
 
-class PurgeQueueReply implements Replies.PurgeQueue {
+export class PurgeQueueReply implements Replies.PurgeQueue {
   public channel: RxChannel;
   public messageCount: number;
 
