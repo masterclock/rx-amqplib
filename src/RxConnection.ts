@@ -1,6 +1,7 @@
-import { Channel, Connection, Options } from 'amqplib';
+import { Channel, ConfirmChannel, Connection, Options } from 'amqplib';
 import * as Rx from 'rxjs/Rx';
 import RxChannel from './RxChannel';
+import RxConfirmChannel from './RxConfirmChannel';
 
 /**
  * Connection to AMQP server.
@@ -22,6 +23,11 @@ export class RxConnection {
   public createChannel(): Rx.Observable<RxChannel> {
     return Rx.Observable.fromPromise(this.connection.createChannel())
       .map((channel: Channel) => new RxChannel(channel));
+  }
+
+  public createConfirmChannel(): Rx.Observable<RxConfirmChannel> {
+    return Rx.Observable.fromPromise(this.connection.createConfirmChannel())
+      .map((channel: ConfirmChannel) => new RxConfirmChannel(channel));
   }
 
   /**

@@ -1,6 +1,7 @@
 import { Options } from 'amqplib';
 import { Message } from 'amqplib/properties';
 import RxChannel from './RxChannel';
+import RxConfirmChannel from './RxConfirmChannel';
 
 /**
  * RxMessage Class
@@ -9,7 +10,7 @@ export class RxMessage implements Message {
   public content: Buffer;
   public fields: any;
   public properties: any;
-  public channel: RxChannel;
+  public channel: RxChannel | RxConfirmChannel;
 
   /**
    * RxMessage constructor.
@@ -17,7 +18,7 @@ export class RxMessage implements Message {
    * @param message
    * @param channel
    */
-  constructor(message: Message, channel?: RxChannel) {
+  constructor(message: Message, channel?: RxChannel | RxConfirmChannel) {
     this.content = message.content;
     this.fields = message.fields;
     this.properties = message.properties;
